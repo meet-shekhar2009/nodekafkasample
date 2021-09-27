@@ -17,7 +17,7 @@ async function run() {
         //A-M 0 , N-Z 1 
         //  const partition = msg[0] < "N" ? 0 : 1;
         let sendobj = {
-            "topic": "mytopic",
+            "topic": "color",
             "messages": [
                 {
                     "value": msg

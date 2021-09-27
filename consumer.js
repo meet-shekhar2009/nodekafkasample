@@ -15,7 +15,7 @@ async function run() {
         console.log("Connected!")
 
         await consumer.subscribe({
-            "topic": "mytopic",
+            "topic": "color",
             "fromBeginning": true
         })
 
