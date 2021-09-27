@@ -1,12 +1,13 @@
 //const Kafka = require("kafkajs").Kafka
 const { Kafka } = require("kafkajs")
+const provider = require("./provider");
 
 run();
 async function run() {
     try {
         const kafka = new Kafka({
             "clientId": "myapp",
-            "brokers": ["20.193.225.199:9092"]
+            "brokers": ["40.82.215.148:9092"]
         })
 
         const consumer = kafka.consumer({ "groupId": "test" })
@@ -15,17 +16,27 @@ async function run() {
         console.log("Connected!")
 
         await consumer.subscribe({
-            "topic": "color",
-            "fromBeginning": true
+            topic: "izor",
+            fromBeginning: true
         })
 
         await consumer.run({
-            "eachMessage": async result => {
-                console.log(`RVD Msg ${result.message.value} on partition ${result.partition}`)
+            eachMessage: async result => {
+                try {
+                    await provider.set({
+                        value: result.message.value.toString(),
+                        updatedon: new Date()
+                    });
+
+                } catch (error) {
+                    console.log(error.message);
+                }
+                finally {
+                    console.log(`RVD Msg ${result.message.value} on partition ${result.partition}`);
+                }
+
             }
         })
-
-
     }
     catch (ex) {
         console.error(`Something bad happened ${ex}`)
