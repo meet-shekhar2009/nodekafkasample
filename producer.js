@@ -7,7 +7,7 @@ async function run() {
     try {
         const kafka = new Kafka({
             "clientId": "myapp",
-            "brokers": ["20.193.225.199:9092"]
+            "brokers": ["40.82.215.148:9092"]
         })
 
         const producer = kafka.producer();
@@ -17,7 +17,7 @@ async function run() {
         //A-M 0 , N-Z 1 
         //  const partition = msg[0] < "N" ? 0 : 1;
         let sendobj = {
-            "topic": "mytopic",
+            "topic": "izor",
             "messages": [
                 {
                     "value": msg
