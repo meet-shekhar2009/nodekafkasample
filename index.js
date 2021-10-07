@@ -6,7 +6,9 @@ const app = express();
 let port = process.env.port || 3300;
 
 app.get('/', async (req, res) => {
-    let result = await provider.get();
+    let result = null;
+    //result={name:'shekhar'};
+    result=await provider.get();
     res.json(result);
 });
 

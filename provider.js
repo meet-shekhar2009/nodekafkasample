@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 const myevents = mongoose.model('myevents', new Schema({ value: String, updatedon: Date }));
 console.log('connecting mongo...');
-mongoose.connect('mongodb://localhost:27017/sample');
+mongoose.connect('mongodb://mongostore:27017/sample');
 
 module.exports = (function () {
     return {

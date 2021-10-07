@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  nodekafkaapp:
+    build: .
+    container_name: nodekafkaapp
+    depends_on: 
+      - mongostore
+    ports:
+      - "3300:3300"
+  mongostore:
+    image: mongo:latest    
+    container_name: mongostore
+    ports:
+      - "27017:27017"
