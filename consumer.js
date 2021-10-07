@@ -10,13 +10,13 @@ async function run() {
             "brokers": ["40.82.215.148:9092"]
         })
 
-        const consumer = kafka.consumer({ "groupId": "test" })
+        const consumer = kafka.consumer({ "groupId": "test-1" })
         console.log("Connecting.....")
         await consumer.connect()
         console.log("Connected!")
 
         await consumer.subscribe({
-            topic: "izor",
+            topic: "izor3",
             fromBeginning: true
         })
 
@@ -29,7 +29,7 @@ async function run() {
                     });
 
                 } catch (error) {
-                    console.log(error.message);
+                    console.error(error.message);
                 }
                 finally {
                     console.log(`RVD Msg ${result.message.value} on partition ${result.partition}`);

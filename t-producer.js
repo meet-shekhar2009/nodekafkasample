@@ -10,10 +10,12 @@ async function run() {
             "brokers": ["40.82.215.148:9092"]
         })
 
-        const producer = kafka.producer({ maxInFlightRequests: 1, idempotent: true });
-        console.log("Connecting.....")
-        await producer.connect()
-        console.log("Connected!")
+        const producer = kafka.producer({
+            maxInFlightRequests: 1, idempotent: true, transactionalId: 'transid-' + Math.random() * 1000000, transactionTimeout: 1500
+        });
+        console.log("creating transaction.....")
+        const transaction = await producer.transaction();
+        console.log("transation created !")
         //A-M 0 , N-Z 1 
         //  const partition = msg[0] < "N" ? 0 : 1;
         let sendobj = {
@@ -27,14 +29,15 @@ async function run() {
                 }
             ]
         };
-
-        const result = await producer.send(sendobj)
-
+        console.log('data sending..');
+        const result = await transaction.send(sendobj);
+        console.log('data sent!');
+        await transaction.commit()
         console.log(`Send Successfully! ${JSON.stringify(result)}`)
         await producer.disconnect();
     }
     catch (ex) {
-        console.error(`Something bad happened ${ex.messages}`)
+        console.error(`Something bad happened ${ex}`)
     }
     finally {
         process.exit(0);
